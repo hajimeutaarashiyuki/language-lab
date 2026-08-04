@@ -1313,6 +1313,26 @@ ul { margin: 6px 0; padding-left: 22px; }
   .nav-btn.active:hover { color: #10182A; }
 }
 
+/* ── 返回鍵黏性定位：課程/文章/總表等長頁面，返回鍵跟著捲動固定在左上
+ *   （只作用於 .page 直屬的返回鍵；練習頁的返回鍵在 .flash-top 內不受影響） ── */
+.page > .back-btn {
+  position: sticky;
+  top: 56px;                /* topbar 高度之下 */
+  z-index: 40;
+  align-self: flex-start;
+}
+
+/* ── 手機頂列緊湊化：返回鍵＋維持複習＋Lv＋進度＋暫停 要能一行放下 ── */
+@media (max-width: 600px) {
+  .page > .back-btn { top: 48px; }
+  .flash-top { gap: 6px; flex-wrap: nowrap; }
+  .flash-top .back-btn { padding: 6px 10px; font-size: 14px; white-space: nowrap; margin-bottom: 0; }
+  .flash-meta { gap: 5px; flex-wrap: nowrap; min-width: 0; }
+  .flash-meta .badge { font-size: 11px; padding: 2px 6px; }
+  .flash-meta .progress-text { font-size: 12.5px; white-space: nowrap; }
+  .btn-pause { padding: 3px 7px; font-size: 13px; }
+}
+
 /* 隨身版專屬：登入畫面與備份橫幅 */
 .llb-overlay { position: fixed; inset: 0; z-index: 200; background: var(--bg);
   display: flex; align-items: center; justify-content: center; padding: 24px; }
