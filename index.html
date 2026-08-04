@@ -3906,16 +3906,58 @@ document.addEventListener('DOMContentLoaded', function () {
   llbShowLogin();
 });
 
-/* ---- 切換使用者（掛在品牌長按/雙擊：簡潔不佔 UI） ---- */
-document.addEventListener('DOMContentLoaded', function () {
-  var brand = document.getElementById('brand-btn');
-  if (!brand) return;
-  brand.addEventListener('dblclick', function () {
+/* ---- 常駐設定入口（隨身版專屬）：備份/還原/切換使用者 隨時找得到 ---- */
+function llbShowSettings() {
+  var cur = localStorage.getItem(LLB.CURRENT) || '';
+  var last = Number(localStorage.getItem(LLB.LAST_BACKUP) || 0);
+  var lastTxt = last ? new Date(last).toLocaleDateString('zh-TW') : '從未備份';
+  var ov = document.createElement('div');
+  ov.className = 'llb-overlay';
+  ov.innerHTML =
+    '<div class="llb-box">' +
+    '<h1>⚙️ 隨身版設定</h1>' +
+    '<p class="llb-sub">目前使用者：<strong>' + cur.replace(/[<>&]/g, '') + '</strong>｜上次備份：' + lastTxt + '</p>' +
+    '<div class="llb-list">' +
+    '<button type="button" class="btn btn-primary btn-big" id="llb-s-export">📥 匯出進度備份</button>' +
+    '<button type="button" class="btn btn-big" id="llb-s-restore">📤 從備份檔還原</button>' +
+    '<button type="button" class="btn btn-big" id="llb-s-switch">👤 切換使用者</button>' +
+    '</div>' +
+    '<p class="llb-sub small">進度存在這台裝置的瀏覽器裡；清除瀏覽資料會清掉所有人的進度，請定期匯出備份。</p>' +
+    '<div class="llb-actions"><button type="button" class="btn btn-ghost" id="llb-s-close">關閉</button></div>' +
+    '<input type="file" id="llb-s-file" accept="application/json,.json" hidden>' +
+    '</div>';
+  document.body.appendChild(ov);
+  ov.querySelector('#llb-s-export').addEventListener('click', llbExport);
+  ov.querySelector('#llb-s-restore').addEventListener('click', function () {
+    ov.querySelector('#llb-s-file').click();
+  });
+  ov.querySelector('#llb-s-file').addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) {
+      llbImport(e.target.files[0], function () {
+        alert('還原完成！');
+        location.reload();
+      });
+    }
+  });
+  ov.querySelector('#llb-s-switch').addEventListener('click', function () {
     llbSaveNow();
     localStorage.removeItem(LLB.CURRENT);
     location.reload();
   });
-  brand.title = '雙擊切換使用者';
+  ov.querySelector('#llb-s-close').addEventListener('click', function () { ov.remove(); });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  var nav = document.querySelector('.topnav');
+  if (nav) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nav-btn';
+    btn.id = 'llb-settings-btn';
+    btn.textContent = '備份';
+    btn.addEventListener('click', llbShowSettings);
+    nav.appendChild(btn);
+  }
 });
 </script>
   <script>/* ============================================================
