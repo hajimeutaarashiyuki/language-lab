@@ -1317,7 +1317,9 @@ ul { margin: 6px 0; padding-left: 22px; }
  *   （只作用於 .page 直屬的返回鍵；練習頁的返回鍵在 .flash-top 內不受影響） ── */
 .page > .back-btn {
   position: sticky;
-  top: 56px;                /* topbar 高度之下 */
+  /* 吸附點＝按鈕的自然位置（topbar 高＋頁面上緣留白）——從頭到尾釘在原地
+   * 不位移，也永遠不會貼到頂欄（吸附點設太高會先上移一段才黏住，難看） */
+  top: 76px;
   z-index: 40;
   align-self: flex-start;
 }
@@ -1326,7 +1328,7 @@ ul { margin: 6px 0; padding-left: 22px; }
 /* 通則（使用者定義）：功能型 UI（按鈕等可操作元件）不縮小；
  * 資訊型 UI（徽章、進度文字）才可以縮。 */
 @media (max-width: 600px) {
-  .page > .back-btn { top: 48px; }
+  .page > .back-btn { top: 60px; }  /* 手機 topbar 較矮，吸附點同步對齊自然位置 */
   .flash-top { gap: 6px; flex-wrap: nowrap; }
   .flash-top .back-btn { white-space: nowrap; margin-bottom: 0; }  /* 大小不變，只防斷行 */
   .flash-meta { gap: 5px; flex-wrap: wrap; justify-content: flex-end; min-width: 0; }
