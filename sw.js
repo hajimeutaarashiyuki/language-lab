@@ -1,5 +1,5 @@
 // 隨身版 Service Worker：整包快取＝完全離線（版本＝內容雜湊）
-var CACHE = 'll-0570a10ac6';
+var CACHE = 'll-0e7aa9ab63';
 var ASSETS = ['./', './index.html', './manifest.webmanifest',
               './icon-192.png', './icon-512.png', './icon-180.png'];
 self.addEventListener('install', function (e) {

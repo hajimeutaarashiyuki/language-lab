@@ -1323,14 +1323,15 @@ ul { margin: 6px 0; padding-left: 22px; }
 }
 
 /* ── 手機頂列緊湊化：返回鍵＋維持複習＋Lv＋進度＋暫停 要能一行放下 ── */
+/* 通則（使用者定義）：功能型 UI（按鈕等可操作元件）不縮小；
+ * 資訊型 UI（徽章、進度文字）才可以縮。 */
 @media (max-width: 600px) {
   .page > .back-btn { top: 48px; }
   .flash-top { gap: 6px; flex-wrap: nowrap; }
-  .flash-top .back-btn { padding: 6px 10px; font-size: 14px; white-space: nowrap; margin-bottom: 0; }
-  .flash-meta { gap: 5px; flex-wrap: nowrap; min-width: 0; }
-  .flash-meta .badge { font-size: 11px; padding: 2px 6px; }
+  .flash-top .back-btn { white-space: nowrap; margin-bottom: 0; }  /* 大小不變，只防斷行 */
+  .flash-meta { gap: 5px; flex-wrap: wrap; justify-content: flex-end; min-width: 0; }
+  .flash-meta .badge { font-size: 11px; padding: 2px 6px; }        /* 資訊型：可縮 */
   .flash-meta .progress-text { font-size: 12.5px; white-space: nowrap; }
-  .btn-pause { padding: 3px 7px; font-size: 13px; }
 }
 
 /* 隨身版專屬：登入畫面與備份橫幅 */
