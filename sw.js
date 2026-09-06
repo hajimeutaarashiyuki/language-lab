@@ -1,5 +1,5 @@
 // 隨身版 Service Worker：整包快取＝完全離線（版本＝內容雜湊）
-var CACHE = 'll-82967c3796';
+var CACHE = 'll-6c44a02461';
 var ASSETS = ['./index.html', './manifest.webmanifest',
               './icon-192.png', './icon-512.png', './icon-180.png'];
 self.addEventListener('install', function (e) {
@@ -7,8 +7,10 @@ self.addEventListener('install', function (e) {
     .then(function () { return self.skipWaiting(); }));
 });
 self.addEventListener('activate', function (e) {
+  // 只清自己（ll-*）的舊版：Cache Storage 以 origin 為單位、不分 scope，
+  // GitHub Pages 同一個 origin 上還有別的 app（nursing-lab），不能連別人的一起刪。
   e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (k) { return k !== CACHE; })
+    return Promise.all(keys.filter(function (k) { return k !== CACHE && k.indexOf('ll-') === 0; })
       .map(function (k) { return caches.delete(k); }));
   }).then(function () { return self.clients.claim(); }));
 });
